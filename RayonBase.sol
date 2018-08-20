@@ -17,5 +17,7 @@ contract RayonBase is Claimable, HasNoContracts, HasNoEther {
         _contractInst.transferOwnership(owner);
     }
 
-    function kill() external;
+    // function kill() external onlyOwner {
+    //     selfdestruct(owner);
+    // }
 }
