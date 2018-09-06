@@ -5,9 +5,9 @@ import "./RayonBase.sol";
 contract RayonProxy is RayonBase {
     address private targetAddress;
 
-    constructor(address _address) public {
-        setTargetAddress(_address);
-    }
+    // constructor(address _address) public {
+    //     setTargetAddress(_address);
+    // }
 
     function setTargetAddress(address _address) public {
         require(_address != address(0));

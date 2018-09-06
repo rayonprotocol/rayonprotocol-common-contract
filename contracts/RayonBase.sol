@@ -5,10 +5,11 @@ import "openzeppelin-solidity/contracts/ownership/HasNoContracts.sol";
 import "openzeppelin-solidity/contracts/ownership/HasNoEther.sol";
 
 contract RayonBase is Claimable, HasNoContracts, HasNoEther {
-    string internal name;
-    uint16 internal version;
+    string private name;
+    uint16 private version;
 
     constructor(string _name, uint16 _version) public {
+        require(_version > 0, "version must be greater than zero");
         name = _name;
         version = _version;
     }
