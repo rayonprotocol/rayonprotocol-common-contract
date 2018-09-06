@@ -1,5 +1,5 @@
 {
-  "name": "rayonprotocol-common-contract",
+  "name": "rayonprotocol-contract-common",
   "version": "1.0.0",
   "description": "This is a common contract project of RayonProtocol. It is used for all projects for developing RayonProtocol contracts.",
   "main": "truffle.js",
@@ -11,14 +11,14 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/rayonprotocol/rayonprotocol-common-contract.git"
+    "url": "git+https://github.com/rayonprotocol/rayonprotocol-contract-common.git"
   },
   "author": "",
   "license": "ISC",
   "bugs": {
-    "url": "https://github.com/rayonprotocol/rayonprotocol-common-contract/issues"
+    "url": "https://github.com/rayonprotocol/rayonprotocol-contract-common/issues"
   },
-  "homepage": "https://github.com/rayonprotocol/rayonprotocol-common-contract#readme",
+  "homepage": "https://github.com/rayonprotocol/rayonprotocol-contract-common#readme",
   "dependencies": {
     "openzeppelin-solidity": "^1.12.0"
   }

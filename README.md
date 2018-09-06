@@ -9,7 +9,7 @@ This is a common contract project of RayonProtocol. It is used for all projects 
 - clone the repository to your local drive
 
 ```
-$ git clone https://github.com/rayonprotocol/rayonprotocol-common-contract.git
+$ git clone https://github.com/rayonprotocol/rayonprotocol-contract-common.git
 ```
 
 ### Install libraries and tools
