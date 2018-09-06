@@ -2,7 +2,7 @@ pragma solidity ^0.4.23;
 
 import "./RayonBase.sol";
 
-contract Proxy is RayonBase {
+contract RayonProxy is RayonBase {
     address private targetAddress;
 
     constructor(address _address) public {
