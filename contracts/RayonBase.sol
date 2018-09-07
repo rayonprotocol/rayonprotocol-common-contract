@@ -10,6 +10,7 @@ contract RayonBase is Claimable, HasNoContracts, HasNoEther {
 
     constructor(string _name, uint16 _version) public {
         require(_version > 0, "version must be greater than zero");
+        require(bytes(_name).length > 0, "name cannot be null");
         name = _name;
         version = _version;
     }
