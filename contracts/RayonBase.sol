@@ -31,8 +31,8 @@ contract RayonBase is Claimable, HasNoContracts, HasNoEther {
 
     function reclaimOwnershipContract(address _contractAddr) public onlyOwner {
         require(_contractAddr != address(0), "contract address cannot be 0x0");
-        Ownable _contractInst = Ownable(_contractAddr);
-        _contractInst.transferOwnership(owner);
+        Ownable contractInst = Ownable(_contractAddr);
+        contractInst.transferOwnership(owner);
     }
 
     function kill() external onlyOwner {
