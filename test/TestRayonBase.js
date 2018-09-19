@@ -66,6 +66,27 @@ contract('RayonBase', function (accounts) {
             await rayonBaseContract.claimOwnership({ from: admin }).should.be.rejectedWith(/revert/);
         })
     })
+    describe('transfer ownership to previous admin (EOA)', function () {
+        it('check permission by previous admin', async function () {
+            await rayonBaseContract.owner({ from: admin }).should.be.fulfilled;
+            await rayonBaseContract.pendingOwner({ from: admin }).should.be.fulfilled;
+            await rayonBaseContract.transferOwnership(admin, { from: admin }).should.be.rejectedWith(/revert/);
+            await rayonBaseContract.claimOwnership({ from: admin }).should.be.rejectedWith(/revert/);
+        })
+        it('transfer ownership to previous admin by newAdmin', async function () {
+            // transferOwnership -> to pendingOwner
+            await rayonBaseContract.transferOwnership(admin, { from: newAdmin }).should.be.fulfilled;
+            assert.equal(await rayonBaseContract.owner({ from: newAdmin }), newAdmin);
+            assert.equal(await rayonBaseContract.pendingOwner({ from: newAdmin }), admin);
+            await rayonBaseContract.transferOwnership(guest, { from: admin }).should.be.rejectedWith(/revert/);
+        })
+        it('claim ownership by previous admin', async function () {
+            // claimOwnership
+            await rayonBaseContract.claimOwnership({ from: admin }).should.be.fulfilled;
+            assert.equal(await rayonBaseContract.owner({ from: admin }), admin);
+            assert.equal(await rayonBaseContract.pendingOwner({ from: admin }), 0);
+        })
+    })
     describe('transfer ownership to ownerContract', function () {
         it('deploy adminContract', async function () {
             const name = "OwnerContact";
@@ -75,10 +96,10 @@ contract('RayonBase', function (accounts) {
             assert.equal(await ownerContract.getName({ from: admin }), name);
             assert.equal(await ownerContract.getVersion({ from: admin }), version);
         })
-        it('transfer ownership to ownerContract by newAdmin', async function () {
+        it('transfer ownership to ownerContract by admin', async function () {
             // transferOwnership -> to pendingOwner
-            await rayonBaseContract.transferOwnership(ownerContract.address, { from: newAdmin }).should.be.fulfilled;
-            assert.equal(await rayonBaseContract.owner({ from: admin }), newAdmin);
+            await rayonBaseContract.transferOwnership(ownerContract.address, { from: admin }).should.be.fulfilled;
+            assert.equal(await rayonBaseContract.owner({ from: admin }), admin);
             assert.equal(await rayonBaseContract.pendingOwner({ from: admin }), ownerContract.address);
         })
         it('claim ownership by adminContract', async function () {
