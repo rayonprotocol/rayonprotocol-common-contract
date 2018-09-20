@@ -6,16 +6,18 @@ contract RayonProxy is RayonBase {
     address private targetAddress;
 
     // constructor
-    constructor(string _name) RayonBase(_name, 0) public {}
+    constructor(string _name) RayonBase(_name, 0) public {
+        proxy = true;
+    }
 
-    function getTargetAddress() external returns (address) {
+    function getTargetAddress() external view returns (address) {
         return targetAddress;
     }
     function setTargetAddress(address _address) external {
         require(_address != address(0), "contract address cannot be 0x0");
         RayonBase targetContract = RayonBase(_address);
-        require(keccak256(targetContract.getName()) == keccak256(name), "contract\'s name must be equals");
-        require(targetContract.getVersion() > version, "target contract\'s version must be greater than current");
+        require(keccak256(targetContract.getName()) == keccak256(name), "contract's name must be equals");
+        require(targetContract.getVersion() > version, "target contract's version must be greater than current");
 
         targetAddress = _address;
         version = targetContract.getVersion();

@@ -32,12 +32,12 @@ contract('RayonBase', function (accounts) {
 
             const rayonBaseContract2 = await RayonBase.new(name, version, { from: admin }).should.be.rejectedWith(/revert/);
         })
-        it('version is 0', async function () {
-            const name = "RayonBase";
-            const version = 0;
+        // it('version is 0', async function () {
+        //     const name = "RayonBase";
+        //     const version = 0;
 
-            const rayonBaseContract2 = await RayonBase.new(name, version, { from: admin }).should.be.rejectedWith(/revert/);
-        })
+        //     const rayonBaseContract2 = await RayonBase.new(name, version, { from: admin }).should.be.rejectedWith(/revert/);
+        // })
     })
     describe('transfer ownership to new admin (EOA)', function () {
         it('check permission by newAdmin', async function () {

@@ -4,12 +4,14 @@ import "openzeppelin-solidity/contracts/ownership/Claimable.sol";
 import "openzeppelin-solidity/contracts/ownership/HasNoEther.sol";
 
 contract RayonBase is Claimable, HasNoEther {
+    bool internal proxy;
     string internal name;
     uint16 internal version;
 
     constructor(string _name, uint16 _version) public {
         require(_version >= 0, "version must be greater than or equals zero");
         require(bytes(_name).length > 0, "name cannot be null");
+        proxy = false;
         name = _name;
         version = _version;
     }
@@ -20,6 +22,10 @@ contract RayonBase is Claimable, HasNoEther {
 
     function getVersion() public view returns(uint16){
         return version;
+    }
+
+    function isProxy() public view returns(bool){
+        return proxy;
     }
 
     function claimOwnershipContract(address _contractAddr) external onlyOwner {
