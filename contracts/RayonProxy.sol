@@ -16,7 +16,7 @@ contract RayonProxy is RayonBase {
     function setTargetAddress(address _address) external {
         require(_address != address(0), "contract address cannot be 0x0");
         RayonBase targetContract = RayonBase(_address);
-        require(keccak256(targetContract.getName()) == keccak256(name), "contract's name must be equals");
+        require(keccak256(abi.encodePacked(targetContract.getName())) == keccak256(abi.encodePacked(name)), "contract's name must be equals");
         require(targetContract.getVersion() > version, "target contract's version must be greater than current");
 
         targetAddress = _address;
