@@ -26,12 +26,12 @@ contract('RayonBase', function (accounts) {
     })
 
     describe('name and version checking', function () {
-        it('name is empty', async function () {
-            const name = "";
-            const version = 1;
+        // it('name is empty', async function () {
+        //     const name = "";
+        //     const version = 1;
 
-            const rayonBaseContract2 = await RayonBase.new(name, version, { from: admin }).should.be.rejectedWith(/revert/);
-        })
+        //     const rayonBaseContract2 = await RayonBase.new(name, version, { from: admin }).should.be.rejectedWith(/revert/);
+        // })
         // it('version is 0', async function () {
         //     const name = "RayonBase";
         //     const version = 0;

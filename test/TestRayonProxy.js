@@ -30,7 +30,7 @@ contract('RayonProxy', function (accounts) {
             assert.equal(await logicContract.getVersion({ from: admin }), version);
         })
         it('set target contract', async function () {
-            proxy.setTargetAddress(logicContract.address).should.be.fulfilled;
+            await proxy.setTargetAddress(logicContract.address).should.be.fulfilled;
             assert.equal(await logicInteface.getName({ from: admin }), name);
             console.log('Set RayonProxy\'s target contract to : ' + logicContract.address + ', interface : ' + logicInteface.address);
 
@@ -48,7 +48,7 @@ contract('RayonProxy', function (accounts) {
             assert.equal(await logicContract.getVersion({ from: admin }), version);
         })
         it('set target contract', async function () {
-            proxy.setTargetAddress(logicContract.address).should.be.fulfilled;
+            await proxy.setTargetAddress(logicContract.address).should.be.fulfilled;
             assert.equal(await logicInteface.getName({ from: admin }), name);
             console.log('Set RayonProxy\'s target contract to : ' + logicContract.address + ', interface : ' + logicInteface.address);
 
@@ -61,13 +61,13 @@ contract('RayonProxy', function (accounts) {
             const currentTargetVersion = await logicInteface.getVersion({ from: admin });
             const version = currentTargetVersion;
             logicContract = await RayonBase.new(name, version, { from: admin });
-            proxy.setTargetAddress(logicContract.address).should.be.rejectedWith(/revert/);
+            await proxy.setTargetAddress(logicContract.address).should.be.rejectedWith(/revert/);
         })
         it('small target version', async function () {
             const currentTargetVersion = await logicInteface.getVersion({ from: admin });
             const version = currentTargetVersion - 1;
             logicContract = await RayonBase.new(name, version, { from: admin });
-            proxy.setTargetAddress(logicContract.address).should.be.rejectedWith(/revert/);
+            await proxy.setTargetAddress(logicContract.address).should.be.rejectedWith(/revert/);
         })
     })
 })
