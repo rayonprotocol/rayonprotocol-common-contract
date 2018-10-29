@@ -23,6 +23,19 @@ contract RayonBase is Claimable, HasNoContracts, HasNoEther {
         return version;
     }
 
+    function _addressToBytes(address a) internal view returns (bytes b) {
+        assembly {
+            let m := mload(0x40)
+            mstore(add(m, 20), xor(0x140000000000000000000000000000000000000000, a))
+            mstore(0x40, add(m, 52))
+            b := m
+        }
+    }
+
+    function _verifySignature(bytes32 dataHash, address _signedAddress, uint8 _v, bytes32 _r, bytes32 _s) internal view returns (bool) {
+        return ecrecover(dataHash, _v, _r, _s) == _signedAddress;
+    }
+
     function claimOwnershipContract(address _contractAddr) public onlyOwner {
         require(_contractAddr != address(0), "contract address cannot be 0x0");
         Claimable contractInst = Claimable(_contractAddr);
