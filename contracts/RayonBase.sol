@@ -24,17 +24,17 @@ contract RayonBase is Claimable, HasNoEther {
         return version;
     }
 
-    function _addressToBytes(address a) internal view returns (bytes b) {
+    function _addressToBytes(address _a) internal pure returns (bytes b) {
         assembly {
             let m := mload(0x40)
-            mstore(add(m, 20), xor(0x140000000000000000000000000000000000000000, a))
+            mstore(add(m, 20), xor(0x140000000000000000000000000000000000000000, _a))
             mstore(0x40, add(m, 52))
             b := m
         }
     }
 
-    function _verifySignature(bytes32 dataHash, address _signedAddress, uint8 _v, bytes32 _r, bytes32 _s) internal view returns (bool) {
-        return ecrecover(dataHash, _v, _r, _s) == _signedAddress;
+    function _verifySignature(bytes32 _dataHash, address _signedAddress, uint8 _v, bytes32 _r, bytes32 _s) internal pure returns (bool) {
+        return ecrecover(_dataHash, _v, _r, _s) == _signedAddress;
     }
 
     function isProxy() public view returns(bool){
