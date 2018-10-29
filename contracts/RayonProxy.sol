@@ -5,13 +5,22 @@ import "./RayonBase.sol";
 contract RayonProxy is RayonBase {
     address private targetAddress;
 
-    // constructor(address _address) public {
-    //     setTargetAddress(_address);
-    // }
+    // constructor
+    constructor(string _name) RayonBase(_name, 0) public {
+        proxy = true;
+    }
 
-    function setTargetAddress(address _address) public {
-        require(_address != address(0));
+    function getTargetAddress() external view returns (address) {
+        return targetAddress;
+    }
+    function setTargetAddress(address _address) external {
+        require(_address != address(0), "contract address cannot be 0x0");
+        RayonBase targetContract = RayonBase(_address);
+        require(keccak256(abi.encodePacked(targetContract.getName())) == keccak256(abi.encodePacked(name)), "contract's name must be equals");
+        require(targetContract.getVersion() > version, "target contract's version must be greater than current");
+
         targetAddress = _address;
+        version = targetContract.getVersion();
     }
 
     function () external {

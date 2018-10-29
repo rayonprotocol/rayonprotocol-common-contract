@@ -1,16 +1,17 @@
 pragma solidity ^0.4.23;
 
 import "openzeppelin-solidity/contracts/ownership/Claimable.sol";
-import "openzeppelin-solidity/contracts/ownership/HasNoContracts.sol";
 import "openzeppelin-solidity/contracts/ownership/HasNoEther.sol";
 
-contract RayonBase is Claimable, HasNoContracts, HasNoEther {
-    string private name;
-    uint16 private version;
+contract RayonBase is Claimable, HasNoEther {
+    bool internal proxy;
+    string internal name;
+    uint16 internal version;
 
     constructor(string _name, uint16 _version) public {
-        require(_version > 0, "version must be greater than zero");
+        require(_version >= 0, "version must be greater than or equals zero");
         require(bytes(_name).length > 0, "name cannot be null");
+        proxy = false;
         name = _name;
         version = _version;
     }
@@ -36,16 +37,20 @@ contract RayonBase is Claimable, HasNoContracts, HasNoEther {
         return ecrecover(dataHash, _v, _r, _s) == _signedAddress;
     }
 
-    function claimOwnershipContract(address _contractAddr) public onlyOwner {
+    function isProxy() public view returns(bool){
+        return proxy;
+    }
+
+    function claimOwnershipContract(address _contractAddr) external onlyOwner {
         require(_contractAddr != address(0), "contract address cannot be 0x0");
         Claimable contractInst = Claimable(_contractAddr);
         contractInst.claimOwnership();
     }
 
-    function reclaimOwnershipContract(address _contractAddr) public onlyOwner {
+    function reclaimOwnershipContract(address _contractAddr) external onlyOwner {
         require(_contractAddr != address(0), "contract address cannot be 0x0");
-        Ownable _contractInst = Ownable(_contractAddr);
-        _contractInst.transferOwnership(owner);
+        Ownable contractInst = Ownable(_contractAddr);
+        contractInst.transferOwnership(owner);
     }
 
     function kill() external onlyOwner {
